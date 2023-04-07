@@ -1,20 +1,20 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const app = express();
+const port = 3000;
+const products = require('./products.json');
 
-const { connectToDB } = require('./db')
-const { addProducts } = require('./products')
+app.get('/search', (req, res) => {
+  const query = req.query.q;
 
-app.use(express.static('public'))
+  // products.json dosyasındaki ürünlerin filtrelenmesi
+  const filteredProducts = products.filter(product => {
+    return product.name.toLowerCase().includes(query.toLowerCase());
+  });
 
-connectToDB()
-  .then(() => {
-    addProducts()
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+  // filtrelenen ürünlerin istemciye gönderilmesi
+  res.json(filteredProducts);
+});
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`)
-})
+  console.log(`Server running at http://localhost:${port}`);
+});
