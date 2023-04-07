@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Ürün Sorgulama</title>
+  </head>
+  <body>
+    <h1>Ürün Sorgulama</h1>
+    <link rel="stylesheet" href="style.css">
+    <form id="product-search-form">
+      <label for="product-search-input">Ürün Adı:</label>
+      <input type="text" id="product-search-input" name="query" required>
+      <button type="submit">Ara</button>
+    </form>
+    <div id="product-search-results"></div>
+    
+    <script>
+      const form = document.querySelector('#product-search-form');
+      const resultsDiv = document.querySelector('#product-search-results');
+      
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const query = form.query.value;
+        const response = await fetch(`/api/search?query=${query}`);
+        const products = await response.json();
+        const productHTML = products.map(product => `
+          <div>
+            <h2>${product.name}</h2>
+            <p>Fiyat: ${product.price}</p>
+            <p>Stok Durumu: ${product.stock}</p>
+          </div>
+        `).join('');
+        resultsDiv.innerHTML = productHTML;
+      });
+    </script>
+  </body>
+</html>
