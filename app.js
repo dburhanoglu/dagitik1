@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const config = require('./config/config');
-const Product = require('./models/Product');
+const Product = require('./routes/products');
 
 const port = 3000;
 
