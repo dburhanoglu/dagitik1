@@ -1,4 +1,4 @@
-const { connectToDB } = require('./db')
+const { connectToDB } = require('../db')
 
 async function addProducts() {
   const client = await connectToDB()
