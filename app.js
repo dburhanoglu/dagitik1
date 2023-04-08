@@ -20,8 +20,16 @@ app.get('/search', (req, res) => {
 
   // products.json dosyasındaki ürünlerin filtrelenmesi
   const filteredProducts = products.filter(product => {
-    return product.name.toLowerCase().includes(query.toLowerCase());
+    return product.name.toLowerCase().includes(query.toLowerCase()) ||
+           product.description.toLowerCase().includes(query.toLowerCase()) ||
+           product.price.toString().toLowerCase().includes(query.toLowerCase()) ||
+           product.stock.toString().toLowerCase().includes(query.toLowerCase())
   });
+
+  // filtrelenen ürünlerin istemciye gönderilmesi
+  res.json(filteredProducts);
+});
+
 
   // filtrelenen ürünlerin istemciye gönderilmesi
   res.json(filteredProducts);

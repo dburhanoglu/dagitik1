@@ -1,7 +1,19 @@
 const express = require('express');
 const app = express();
+const { connectToDB } = require('./db');
+const { addProducts } = require('./products');
 
-const products = require('./products.json');
+const port = 3000;
+
+// Veritabanı bağlantısını yap
+connectToDB()
+  .then(() => {
+    console.log('Connected to database');
+
+    // Ürünleri veritabanına ekle
+    addProducts();
+  })
+  .catch(err => console.log('Connection error:', err));
 
 app.get('/search/:query', (req, res) => {
   // TODO: Alınan sorguyu kontrol edin
@@ -13,7 +25,6 @@ app.get('/search/:query', (req, res) => {
     product.price.toString().toLowerCase().includes(query.toLowerCase()) ||
     product.stock.toString().toLowerCase().includes(query.toLowerCase())
   );
-  
 
   // TODO: Eşleşen ürünlerin tam isimleri, fiyat bilgileri, stok durumları ve sorgulama işleminin yapıldığı tarih istemciye gönderin
   const response = {
@@ -24,6 +35,6 @@ app.get('/search/:query', (req, res) => {
   res.json(response);
 });
 
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
