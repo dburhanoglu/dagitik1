@@ -8,7 +8,8 @@ const port = 3000;
 // MongoDB bağlantısı
 mongoose.connect('mongodb://localhost:27017/dagitik.d', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  debug:true
 })
   .then(() => {
     console.log('Connected to database');
